@@ -1,4 +1,4 @@
-"""Αποθήκευση JSON για μία ενεργή εφαρμογή ανά αρχείο δεδομένων."""
+"""JSON storage for a single active application instance per data file."""
 
 import json
 import os
@@ -43,12 +43,12 @@ DEFAULT_PATH = (
 
 
 def empty_data():
-    """Ξεχωριστή λίστα εγγραφών για κάθε κατηγορία."""
+    """Create a separate list of records for each category."""
     return {key: [] for key in FIELDS}
 
 
 def validate(data):
-    """Ελέγχει τη δομή ενός αποθηκευμένου αρχείου."""
+    """Validate the structure of a saved file."""
     if not isinstance(data, dict) or set(data) != set(FIELDS):
         raise ValueError(
             "Unexpected data format. The existing file was preserved."
@@ -72,7 +72,7 @@ def validate(data):
 
 
 def load(path=DEFAULT_PATH):
-    """Φορτώνει δεδομένα ή δημιουργεί άδειες λίστες."""
+    """Load existing data or initialize empty collections."""
     path = Path(path)
 
     if not path.exists():
@@ -85,7 +85,7 @@ def load(path=DEFAULT_PATH):
 
 
 def save(data, path=DEFAULT_PATH):
-    """Γράφει πρώτα προσωρινό αρχείο και μετά αντικαθιστά το κανονικό."""
+    """Write to a temporary file before replacing the destination."""
     validate(data)
 
     path = Path(path)

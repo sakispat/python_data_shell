@@ -1,4 +1,4 @@
-"""Κεντρική εφαρμογή Python Data Shell."""
+"""Main application for Python Data Shell."""
 
 import argparse
 import copy
@@ -10,11 +10,11 @@ from validators import required, iso_date, number, grade_result
 
 
 class Cancelled(Exception):
-    """Ο χρήστης ακύρωσε την καταχώριση."""
+    """Raised when the user cancels an entry."""
 
 
 def ask(label, validator=required):
-    """Επαναλαμβάνει μόνο το πεδίο που περιέχει λάθος."""
+    """Prompt again only for the field that failed validation."""
     while True:
         value = console.input(
             f"[cyan]{label}[/cyan] > "
@@ -46,13 +46,13 @@ def study_mode(value):
 
 
 def collect(key):
-    """Συγκεντρώνει τα πεδία μίας νέας εγγραφής."""
+    """Collect the fields for a new record."""
     console.rule(f"NEW {key.upper()}")
 
     row = {}
 
     for field in FIELDS[key]:
-        # Αυτά υπολογίζονται αυτόματα.
+        # These fields are calculated automatically.
         if field in ("Average", "Result"):
             continue
 
@@ -135,10 +135,10 @@ def run(path):
                 updated = copy.deepcopy(data)
                 updated[key].append(row)
 
-                # Πρώτα αποθήκευση στον δίσκο.
+                # Save to disk before updating the in-memory data.
                 save(updated, path)
 
-                # Μετά ενημέρωση των δεδομένων στη μνήμη.
+                # Update the in-memory data only after a successful save.
                 data = updated
 
                 console.print(

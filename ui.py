@@ -1,4 +1,4 @@
-"""Banner, χρώματα, μενού και παρουσίαση εγγραφών."""
+"""Banner, colors, menu, and record presentation."""
 
 from rich import box
 from rich.console import Console
@@ -40,7 +40,7 @@ def banner():
 
 
 def dashboard(data):
-    """Εμφανίζει μετρητές και επιλογές."""
+    """Display record counts and menu options."""
     stats = Table(
         box=box.SIMPLE,
         expand=True,
@@ -98,7 +98,7 @@ def dashboard(data):
 
 
 def show_records(key, rows):
-    """Πίνακες σε μεγάλο terminal, κάρτες σε μικρό."""
+    """Display tables in wide terminals and cards in narrow terminals."""
     if not rows:
         console.print(
             f"{key.title()}: no records.",

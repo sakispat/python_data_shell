@@ -1,11 +1,11 @@
-"""Έλεγχος δεδομένων, ανεξάρτητα από το terminal."""
+"""Input validation independent of the terminal interface."""
 
 from datetime import date
 from decimal import Decimal, InvalidOperation
 
 
 def required(value):
-    """Δεν επιτρέπει κενό κείμενο ή χαρακτήρες ελέγχου."""
+    """Reject empty text and control characters."""
     value = value.strip()
 
     if not value:
@@ -18,7 +18,7 @@ def required(value):
 
 
 def iso_date(value, past=False):
-    """Ελέγχει ημερομηνίες με μορφή YYYY-MM-DD."""
+    """Validate dates in YYYY-MM-DD format."""
     value = required(value)
 
     try:
@@ -36,7 +36,7 @@ def iso_date(value, past=False):
 
 
 def number(value, minimum=0, maximum=None):
-    """Ελέγχει αριθμούς και προαιρετικά όρια."""
+    """Validate numeric input and optional bounds."""
     try:
         result = Decimal(value.strip())
     except InvalidOperation:
@@ -55,13 +55,13 @@ def number(value, minimum=0, maximum=None):
 
 
 def grade_result(written, oral):
-    """Υπολογίζει μέσο όρο χωρίς να χάνει τα δεκαδικά."""
+    """Calculate the average without discarding decimal places."""
     written_mark = number(str(written), 0, 100)
     oral_mark = number(str(oral), 0, 100)
 
     average = (written_mark + oral_mark) / 2
 
-    # Διατηρούμε τον αρχικό κανόνα του project: επιτυχία πάνω από 50.
+    # Preserve the original project's pass rule: average must exceed 50.
     result = "Passed" if average > 50 else "Failed"
 
     return str(average), result
